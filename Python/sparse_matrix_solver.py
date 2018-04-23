@@ -51,9 +51,9 @@ if __name__ == "__main__":
 
     assert exists(MAT_DIR), "Source directory does not exist!"
 
-    for f in listdir(MAT_DIR):
+    for f in sorted(listdir(MAT_DIR)):
         path = join(MAT_DIR, f)
-        if isfile(path) and f != 'cfd1.mtx':
+        if isfile(path):
             print("===== Solving {} =====".format(f))
             A = scipy.io.mmread(path).tocsc()
             x = solve(A)
