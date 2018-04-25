@@ -1,19 +1,14 @@
 #! /usr/bin/env python3
 
-from os import listdir
-from os.path import isfile, join, exists, abspath
 from datetime import datetime
 
 import scipy, scipy.io
 from scipy.sparse.linalg import norm, spsolve
 from scipy.linalg import norm
 
-from memory_profiler import memory_usage, profile
 
 
-MAT_DIR = abspath('../Matrices/positive_definite')
-
-def solve(A):
+def solve(A, use_umfpack=False):
     # Compute b such that the exact solution of Ax = b is xe = [1, 1, ...]
     n_rows, n_columns = A.shape
     p_non_zero = A.nnz / (n_rows * n_columns)
@@ -22,7 +17,7 @@ def solve(A):
 
     # Solve Ax = b
     start_time = datetime.now()
-    x = solve_aux(A, b)
+    x = solve_aux(A, b, use_umfpack=use_umfpack)
     t = datetime.now() - start_time
 
     # || xe - x || / ||xe||
@@ -37,28 +32,39 @@ def solve(A):
     print(f"Time (solve): {t} ({t.seconds}.{t.microseconds}s)")
 
 
-
-@profile
-def solve_aux(A, b):
-    x = spsolve(A, b, use_umfpack=False)
+def solve_aux(A, b, use_umfpack=False):
+    x = spsolve(A, b, use_umfpack=use_umfpack)
     return x
 
 
 
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 1:
-        MAT_DIR = abspath(sys.argv[1])
+    import sys, time, gc, argparse
+    from os import listdir
+    from os.path import isfile, join, exists, abspath
 
-    assert exists(MAT_DIR), "Source directory does not exist!"
+    parser = argparse.ArgumentParser()
+    parser.add_argument('MAT_DIR', type=str,
+        help='Directory containing .mtx files')
+    parser.add_argument('--use_umfpack', '-u', action='store_true',
+        help="Use umfpack library")
+    parser.add_argument('--interactive', '-i', action='store_true',
+        help="Wait for user input before processing a new matrix")
+    args = parser.parse_args()
 
-    for f in sorted(listdir(MAT_DIR)):
-        path = join(MAT_DIR, f)
-        if isfile(path):
+    if not exists(args.MAT_DIR):
+        sys.exit("Source directory does not exist!")
+
+    for f in sorted(listdir(args.MAT_DIR)):
+        path = join(args.MAT_DIR, f)
+        if isfile(path) and f != '.DS_Store':
+            A = None; x = None; gc.collect()
+            time.sleep(1)
+            if args.interactive: sys.stdin.readline()
             print("================== Solving {} ==================".format(f))
             start_time = datetime.now()
             A = scipy.io.mmread(path).tocsc()
             t = datetime.now() - start_time
-            x = solve(A)
+            x = solve(A, use_umfpack=args.use_umfpack)
             print(f"Time (read): {t} ({t.seconds}.{t.microseconds}s)")
-            print('')
+            print("")

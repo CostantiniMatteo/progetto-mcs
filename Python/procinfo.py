@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import argparse
 import sys
 
 import psutil
@@ -17,26 +16,24 @@ def convert_bytes(n):
     return "%sB" % n
 
 
-def main(argv=None):
-    parser = argparse.ArgumentParser(
-        description="print information about a process")
-    parser.add_argument("pid", type=int, help="process pid")
-    parser.add_argument('--verbose', '-v', action='store_true',
-                        help="print more info")
-    args = parser.parse_args()
-    # run(args.pid, args.verbose)
+# ./procinfo.py 0.5 $(pgrep -f pattern)
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        sys.exit("Missing PID")
 
+    delay = 1 if len(sys.argv) < 3 else float(sys.argv[1])
+    pid = int(sys.argv[1]) if len(sys.argv) == 2 else int(sys.argv[2])
+
+    print('###########################################################')
+    print('###########################################################')
+    print('###########################################################')
     try:
-        proc = psutil.Process(args.pid)
+        proc = psutil.Process(pid)
         import time
+        i = 0
         while True:
-            time.sleep(0.1)
+            time.sleep(delay)
             pinfo = proc.as_dict(ad_value='')
             print(convert_bytes(pinfo['memory_info'][0]))
     except psutil.NoSuchProcess as err:
         sys.exit(str(err))
-
-
-
-if __name__ == '__main__':
-    sys.exit(main())
