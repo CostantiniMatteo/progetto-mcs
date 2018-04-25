@@ -1,31 +1,36 @@
 clear all;
 clc;
 
+MAT_DIR = 'Matrices/positive_definite/';
 % Carico lista delle matrici da risolvere
-list = dir('Matrix_List');
+list = dir(MAT_DIR);
+list = arrayfun(@(item) item.name, list, 'UniformOutput', false);
 
-for i = 3:3 %length(list) 
+
+for i = 1:length(list)
+    curr_file = list{i};
+    if ~endsWith(curr_file, '.mat')
+        continue
+    end
     
     % Carico matrice dei coefficienti A
-    mat = load(fullfile('Matrix_List', list(i).name));
-    A = mat.Problem.A;
+    mat = load(fullfile(MAT_DIR, curr_file));
+    solve_matrix(mat);
+    
+end
+
+function solve_matrix(mat)
+    
     
     % Inizializzo il profiler per l'utilizzo di memoria
     profile clear
     profile -memory on;
-    
-    %  Visualizzo informazioni base della matrice
-    disp(['Name: ', mat.Problem.name]);
-    disp(['Dimensions: ', num2str(size(mat.Problem.A, 1)), ' x ', ...
-        num2str(size(mat.Problem.A, 2))]);
-    disp(['Number of elements: ', num2str(nnz(mat.Problem.A)), ...
-        ' (', num2str(100*(nnz(mat.Problem.A)/ ...
-        (size(mat.Problem.A, 1)*size(mat.Problem.A, 1)))), '%)']);
-    
+
     % Calcolo il vettore dei termini noti b
+    A = mat.Problem.A;
     xe = ones(length(A),1);
     b = A*xe;
-    
+
     % Risolvo il sistema (Matlab sceglie l'algoritmo migliore)
     tic;
     x = A\b;
@@ -33,13 +38,21 @@ for i = 3:3 %length(list)
 
     % Salvo informazioni riguardo l'utilizzo di memoria
     p = profile('info');
-    mem_usage = (p.FunctionTable(5).TotalMemAllocated);
-    
+    mem_usage = (p.FunctionTable(2).TotalMemAllocated);
+
     % Calcolo errore relativo
     relative_error = norm(x - xe)/norm(xe);
-    
-    % Visualizzo report analisi
-    disp(['System solving time: ', num2str(t),' s']);
-    disp(['Relative Error: ', num2str(relative_error)]);
+
+    %  Visualizzo informazioni matrice e report
+    disp(['Name: ', mat.Problem.name]);
     disp(['Allocated memory: ',num2str(mem_usage),' Byte']);
+    disp(['Dimensions: ', num2str(size(mat.Problem.A, 1)), ' x ', ...
+        num2str(size(mat.Problem.A, 2))]);
+    disp(['Number of elements: ', num2str(nnz(mat.Problem.A)), ...
+        ' (', num2str(100*(nnz(mat.Problem.A)/ ...
+        (size(mat.Problem.A, 1)*size(mat.Problem.A, 1)))), '%)']);
+    disp(['Relative Error: ', num2str(relative_error)]);
+    disp(['System solving time: ', num2str(t),' s']);
+    fprintf('\n\n');
+   
 end
