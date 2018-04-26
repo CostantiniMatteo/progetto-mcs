@@ -58,13 +58,15 @@ if __name__ == "__main__":
     for f in sorted(listdir(args.MAT_DIR)):
         path = join(args.MAT_DIR, f)
         if isfile(path) and f != '.DS_Store':
-            A = None; x = None; gc.collect()
-            time.sleep(1)
             if args.interactive: sys.stdin.readline()
+            A = None; x = None; gc.collect()
+            if args.interactive: sys.stdin.readline()
+            time.sleep(1)
             print("================== Solving {} ==================".format(f))
             start_time = datetime.now()
             A = scipy.io.mmread(path).tocsc()
             t = datetime.now() - start_time
-            x = solve(A, use_umfpack=args.use_umfpack)
             print(f"Time (read): {t} ({t.seconds}.{t.microseconds}s)")
+            if args.interactive: sys.stdin.readline()
+            x = solve(A, use_umfpack=args.use_umfpack)
             print("")
