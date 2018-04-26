@@ -55,6 +55,12 @@ if __name__ == "__main__":
     if not exists(args.MAT_DIR):
         sys.exit("Source directory does not exist!")
 
+    if args.MAT_DIR.endswith('.mtx'):
+        A = scipy.io.mmread(args.MAT_DIR).tocsc()
+        print("================== Solving {} ==================".format(args.MAT_DIR))
+        x = solve(A, use_umfpack=args.use_umfpack)
+        sys.exit()
+
     for f in sorted(listdir(args.MAT_DIR)):
         path = join(args.MAT_DIR, f)
         if isfile(path) and f != '.DS_Store':

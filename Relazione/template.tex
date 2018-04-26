@@ -1,0 +1,79 @@
+
+%%%% -*- Mode: LaTeX -*-
+\documentclass[a4paper,12pt,openany,oneside]{book}
+\usepackage{geometry}
+ \geometry{
+    a4paper,
+    left=25mm,
+    top=30mm,
+    bottom=40mm,
+    right=25mm
+ }
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+
+% Packages AMS
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{listings}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{url}
+% Simboli matematici aggiuntivi
+\usepackage{stmaryrd}
+\usepackage{verbatim}
+% Per creare l'indice
+\usepackage{index}
+% Per spazi dopo le macro
+\usepackage{xspace}
+% Importazioni e manipolazione di grafica
+\usepackage{graphicx}
+% Per \begin{comment} ... \end{comment}
+\usepackage{comment}
+% Per la spaziatura tra linee
+\usepackage{setspace}
+% Per una migliore resa tipografica con pdflatex
+\usepackage{microtype}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage[final]{pdfpages}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+
+%Per immagini dentro il testo
+\usepackage{wrapfig}
+
+\usepackage{subcaption}
+
+
+%\renewcommand{\familydefault}{\sfdefault}
+
+\newcommand{\mytheo}[2]{
+    \newtheorem*{#1}{#1}
+    \begin{#1}
+        #2
+    \end{#1}
+}
+
+\onehalfspacing
+
+
+
+\title{Relazione Progetto Metodi del Calcolo Scientifico}
+\author{Matteo Colella, Matteo Angelo Costantini, Dario Gerosa}
+
+\makeindex
+
+\begin{document}
+\selectfont
+\maketitle
+
+\chapter{Introduzione}
+Questa è una relazione.
+
+\end{document}
