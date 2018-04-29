@@ -29,11 +29,14 @@ if __name__ == '__main__':
     print('###########################################################')
     try:
         proc = psutil.Process(pid)
+        maxmm = 0
         import time
         i = 0
         while True:
             time.sleep(delay)
             pinfo = proc.as_dict(ad_value='')
-            print(convert_bytes(pinfo['memory_info'][0]))
+            cm = pinfo['memory_info'][0]
+            maxmm = cm if cm > maxmm else maxmm
+            print(f"{convert_bytes(cm)} - {convert_bytes(maxmm)}")
     except psutil.NoSuchProcess as err:
         sys.exit(str(err))
