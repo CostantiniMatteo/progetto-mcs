@@ -50,18 +50,19 @@ function solve_matrix(mat)
 
     [fileID, errormsg] = fopen('../logs/res.log', 'at+');
 %     fprintf(fileID, 'name,dim,nnz,re,time,memory,positive,lang,os\n');
-    fprintf(fileID, '%s', mat.Problem.name, ', ');
-    fprintf(fileID, '%s', num2str(size(mat.Problem.A, 1)), ', ');
-    fprintf(fileID, '%s', num2str(nnz(mat.Problem.A)), ', ');
-    fprintf(fileID, '%s', num2str(relative_error), ', ');
-    fprintf(fileID, '%s', num2str(t), ', ');
-    fprintf(fileID, '%s', num2str(mem_usage), ', ');
-%     fprintf(fileID,); Positive/Negative
-    fprintf(fileID, 'matlab, ');
-%     fprintf(fileID,); OS
+    fprintf(fileID, '%s', mat.Problem.name, ',');
+    fprintf(fileID, '%s', num2str(size(mat.Problem.A, 1)), ',');
+    fprintf(fileID, '%s', num2str(nnz(mat.Problem.A)), ',');
+    fprintf(fileID, '%s', num2str(relative_error), ',');
+    fprintf(fileID, '%s', num2str(t), ',');
+    fprintf(fileID, '%s', num2str(mem_usage), ',');
+    fprintf(fileID, '1,'); %Positive/Negative
+    fprintf(fileID, 'matlab,');
+    fprintf(fileID, 'ubuntu'); %OS
     fprintf(fileID, '\n');
 
     fclose(fileID);
+    clear mat;
 
     %  Visualizzo informazioni matrice e report
 %     disp(['Name: ', mat.Problem.name]);
