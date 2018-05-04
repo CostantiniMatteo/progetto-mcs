@@ -48,7 +48,7 @@ function solve_matrix(mat)
     % Calcolo errore relativo
     relative_error = norm(x - xe)/norm(xe);
 
-    [fileID, errormsg] = fopen('../logs/matlab.log', 'at+');
+    [fileID, errormsg] = fopen('../logs/res.log', 'at+');
 %     fprintf(fileID, 'name,dim,nnz,re,time,memory,positive,lang,os\n');
     fprintf(fileID, '%s', mat.Problem.name, ', ');
     fprintf(fileID, '%s', num2str(size(mat.Problem.A, 1)), ', ');
