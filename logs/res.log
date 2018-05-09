@@ -29,3 +29,18 @@ torso3                  ,259156 ,4429042 ,9.988015883048595e-16 ,1597.814754,710
 torso3                  ,259156 ,4429042 ,2.0526e-16            ,157.8933   ,6420      ,0        ,matlab       ,ubuntu
 water_tank              ,60740  ,2035281 ,1.3499412692341551e-09,85.622508  ,1353      ,0        ,python       ,ubuntu
 water_tank              ,60740  ,2035281 ,1.9933e-12            ,31.5318    ,1584      ,0        ,matlab       ,ubuntu
+PR02R                   ,161070 ,8185136 ,2.6356e-09            ,14.0186    ,2167      ,0        ,matlab       ,windows
+ex19                    ,12005  ,259577  ,1.3397e-08            ,0.066048   ,1         ,0        ,matlab       ,windows
+graham1                 ,9035   ,335472  ,3.5116e-11            ,0.24181    ,2         ,0        ,matlab       ,windows
+kim2                    ,456976 ,11330020,5.8323e-16            ,70.7797    ,3814      ,0        ,matlab       ,windows
+raefsky3                ,21200  ,1488768 ,1.7862e-14            ,0.52217    ,15        ,0        ,matlab       ,windows
+torso1                  ,116158 ,8516500 ,7.7926e-08            ,13.3577    ,1616      ,0        ,matlab       ,windows
+torso3                  ,259156 ,4429042 ,2.0534e-16            ,379.0678   ,5048      ,0        ,matlab       ,windows
+water_tank              ,60740  ,2035281 ,4.8123e-13            ,31.7009    ,1837      ,0        ,matlab       ,windows
+G3_circuit              ,1585478,7660826 ,3.2311e-12            ,14.5917    ,2206      ,1        ,matlab       ,windows
+apache2                 ,715176 ,4817870 ,4.4254e-11            ,10.7192    ,1829      ,1        ,matlab       ,windows
+cfd1                    ,70656  ,1825580 ,1.2527e-13            ,1.5621     ,386       ,1        ,matlab       ,windows
+cfd2                    ,123440 ,3085406 ,3.5643e-13            ,3.88       ,660       ,1        ,matlab       ,windows
+ex15                    ,6867   ,98671   ,6.631e-07             ,0.012028   ,0         ,1        ,matlab       ,windows
+parabolic_fem           ,525825 ,3674625 ,1.0572e-12            ,2.1591     ,428       ,1        ,matlab       ,windows
+shallow_water1          ,81920  ,327680  ,2.381e-16             ,0.23961    ,12        ,1        ,matlab       ,windows

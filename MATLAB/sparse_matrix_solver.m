@@ -19,7 +19,8 @@ clc;
 %     
 % end
 
-pathName = input('');
+%pathName = input('');
+pathName = 'C:\\Users\\bahnh\\Documents\\git\\Matrices\\positive_definite\\shallow_water1.mat';
 mat = load(pathName);
 input('Matrice caricata. Premi invio per continuare');
 solve_matrix(mat);
@@ -58,7 +59,7 @@ function solve_matrix(mat)
     fprintf(fileID, '%s', num2str(mem_usage), ',');
     fprintf(fileID, '1,'); %Positive/Negative
     fprintf(fileID, 'matlab,');
-    fprintf(fileID, 'ubuntu'); %OS
+    fprintf(fileID, 'windows'); %OS
     fprintf(fileID, '\n');
 
     fclose(fileID);
