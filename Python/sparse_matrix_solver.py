@@ -30,7 +30,14 @@ def solve(A, use_umfpack=False):
         print("Non-zero: {0} ({1:.5f}%)".format(A.nnz, p_non_zero))
     print("Relative error: {}".format(relative_error))
     print(f"Time (solve): {t} ({t.seconds}.{t.microseconds}s)")
-    print(f"{args.MAT_DIR.split('/')[-1].split('.')[0]},{n_rows},{A.nnz},{relative_error},{t.seconds}.{t.microseconds}")
+    row = f"{args.MAT_DIR.split('/')[-1].split('.')[0]},{n_rows},{A.nnz},{relative_error},{t.seconds}.{t.microseconds}"
+    print(row)
+
+    # Scrivo sul log
+    with open("../logs/res.log", "a") as log:
+        log.write(row + ',mem,1,python,windows\n')
+
+
 
 
 def solve_aux(A, b, use_umfpack=False):
