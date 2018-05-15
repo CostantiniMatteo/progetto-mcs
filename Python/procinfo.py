@@ -34,8 +34,7 @@ if __name__ == '__main__':
         i = 0
         while True:
             time.sleep(delay)
-            pinfo = proc.as_dict(ad_value='')
-            cm = pinfo['memory_info'][0]
+            cm = proc.memory_info()[0]
             maxmm = cm if cm > maxmm else maxmm
             print(f"{convert_bytes(cm)} - {convert_bytes(maxmm)}")
     except psutil.NoSuchProcess as err:

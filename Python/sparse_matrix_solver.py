@@ -17,7 +17,7 @@ def solve(A, use_umfpack=False):
 
     # Solve Ax = b
     start_time = datetime.now()
-    x = solve_aux(A, b, use_umfpack=use_umfpack)
+    x = spsolve(A, b, use_umfpack=use_umfpack)
     t = datetime.now() - start_time
 
     # || xe - x || / ||xe||
@@ -36,13 +36,6 @@ def solve(A, use_umfpack=False):
     # Scrivo sul log
     with open("../logs/res.log", "a") as log:
         log.write(row + ',mem,1,python,windows\n')
-
-
-
-
-def solve_aux(A, b, use_umfpack=False):
-    x = spsolve(A, b, use_umfpack=use_umfpack)
-    return x
 
 
 
@@ -70,19 +63,3 @@ if __name__ == "__main__":
         x = solve(A, use_umfpack=args.use_umfpack)
         if args.interactive: sys.stdin.readline()
         sys.exit()
-
-    for f in sorted(listdir(args.MAT_DIR)):
-        path = join(args.MAT_DIR, f)
-        if isfile(path) and f != '.DS_Store':
-            if args.interactive: sys.stdin.readline()
-            A = None; x = None; gc.collect()
-            if args.interactive: sys.stdin.readline()
-            time.sleep(1)
-            print("================== Solving {} ==================".format(f))
-            start_time = datetime.now()
-            A = scipy.io.mmread(path).tocsc()
-            t = datetime.now() - start_time
-            print(f"Time (read): {t} ({t.seconds}.{t.microseconds}s)")
-            if args.interactive: sys.stdin.readline()
-            x = solve(A, use_umfpack=args.use_umfpack)
-            print("")
