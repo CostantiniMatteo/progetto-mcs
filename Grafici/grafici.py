@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 dt = pd.read_csv(
-    "../logs/res.log",
+    "../logs/res2.csv",
     sep=',',
     encoding="utf-8-sig",
 )
@@ -28,7 +28,7 @@ for i in range(len(tableau20)):
     tableau20[i] = (r / 255., g / 255., b / 255.)
 
 plt.close()
-plt.figure(figsize=(16, 7))
+plt.figure(1, figsize=(16, 7))
 
 # Settaggio griglia asse y
 ax = plt.axes()
@@ -39,15 +39,26 @@ ax = plt.subplot(111)
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 
+#plt.xlabel('n° di valori non zeri')
 plt.xlabel('Dimensione')
-plt.ylabel('Errore relativo (%) - Tempo (s) - Memoria (MB)')
-#plt.ylim(0, max(dt.loc[:, 'time']))
-#plt.xlim(0, 16)
+plt.ylabel('Errore relativo (%) - Memoria (MB) - Tempo (s)')
+
+
+dt = dt.sort_values('nnz')
+dt = dt.reset_index(drop=True)
 
 lista = list()
+x = list()
 
-x = list(range(1, len(dt['name'].unique()) + 1))
-plt.xticks(x, dt['dim'].unique(), rotation=45)
+for el in dt['name'].unique():
+    x.append(dt.loc[dt['name'] == el, 'nnz'].unique().mean())
+
+# Per dimensione
+dt = dt.sort_values('dim')
+dt = dt.reset_index(drop=True)
+x = dt['dim'].unique()
+# plt.xticks(x, dt['dim'].unique(), rotation=45)
+
 
 #TEMPI
 
@@ -122,12 +133,18 @@ y = dt.loc[(dt['os'] == 'ubuntu') & (dt['lang'] == 'matlab'),'re']
 plt.plot(x, y, color=tableau20[17], dashes=[2, 2, 10, 2], marker='o', label='Ubuntu/Matlab')
 #plt.text(15.2, y.tail(1) + 1.5e-12, 'Ubuntu/Matlab', fontsize=12, color=tableau20[17])
 
+# for xy in zip(x, y):                                       # <--
+#     ax.annotate('(%s, %s)' % xy, xy=xy, textcoords='data')
 
 lista.append([l1, l2, l3])
 
 legend1 = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 plt.legend(lista[0], ["Memoria", "Tempo", "Errore relativo"], bbox_to_anchor=(1.05, 0.4), loc=2, borderaxespad=0)
 plt.yscale('log')
+plt.xscale('log')
 plt.subplots_adjust(bottom=0.15, right=0.8)
 plt.gca().add_artist(legend1)
+plt.savefig('Graficone-dim.png')
 plt.show()
+
+
