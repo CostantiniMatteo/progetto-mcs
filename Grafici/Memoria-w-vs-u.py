@@ -39,8 +39,8 @@ ax = plt.subplot(111)
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 
-plt.xlabel('n° di valori non zeri')
-#plt.xlabel('Dimensione')
+#plt.xlabel('n° di valori non zeri')
+plt.xlabel('Dimensione')
 plt.ylabel('Tempo (s)')
 
 
@@ -57,9 +57,9 @@ for el in dt['name'].unique():
 # plt.xticks(x, dt['dim'].unique(), rotation=45)
 
 # Per dimensione
-# dt = dt.sort_values('dim')
-# dt = dt.reset_index(drop=True)
-# x = dt['dim'].unique()
+dt = dt.sort_values('dim')
+dt = dt.reset_index(drop=True)
+x = dt['dim'].unique()
 
 
 #MEMORIA
@@ -86,4 +86,5 @@ plt.yscale('log')
 plt.xscale('log')
 plt.subplots_adjust(bottom=0.15, right=0.8)
 #plt.gca().add_artist(legend1)
+plt.savefig('immagini/Memoria-w-vs-u_dim.png')
 plt.show()
