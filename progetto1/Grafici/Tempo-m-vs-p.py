@@ -82,9 +82,10 @@ plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 
 
 plt.yscale('log')
-plt.xscale('log')
+# plt.xscale('log')
 plt.subplots_adjust(bottom=0.15, right=0.8)
 #plt.gca().add_artist(legend1)
-plt.savefig('immagini/Tempo-m-vs-p-py_dim.png')
-plt.show()
+#plt.savefig('immagini/Tempo-m-vs-p-py_dim.png')
+#plt.show()
 
+perc = [(x[0] - x[1])/x[1] for x in zip(y_py, y_mat)]
