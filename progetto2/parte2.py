@@ -4,6 +4,8 @@ import cv2
 from tqdm import tqdm
 from scipy.fftpack import dct, idct
 
+
+
 #img = np.random.randint(0,255,25).reshape(5,5)
 
 # Lettura immagine
@@ -19,8 +21,19 @@ while d > sum(img.shape) - 2:
     d = int(input('Inserisci d: '))
 
 
+def round_image_(pixel):
+    if pixel > 255:
+        return 255
+    elif pixel < 0:
+        return 0
+    else:
+        return round(pixel)
+
+
+round_image = np.vectorize(round_image_)
+
 # Applicazione dct
-d_img = dct(img, norm='ortho')
+d_img = dct(dct(img.T, norm='ortho').T, norm='ortho')
 
 # modifica frequenze
 for i, row in tqdm(enumerate(d_img)):
@@ -29,20 +42,10 @@ for i, row in tqdm(enumerate(d_img)):
         d_img[i, j] *= beta
 
 
-# Applicazione inversa dct
-i_img = idct(d_img, norm='ortho')
+# Applicazione inversa dct e arrotondamento
+i_img = round_image(idct(idct(d_img.T, norm='ortho').T, norm='ortho'))
 
 
-# Arrotondamento
-for i, row in tqdm(enumerate(i_img)):
-  for j, col in enumerate(row):
-
-    if i_img[i, j] > 255:
-        i_img[i, j] = 255
-    elif i_img[i, j] < 0:
-        i_img[i, j] = 0
-    else:
-        i_img[i, j] = round(i_img[i, j])
 
 
 # Visualizzazione
