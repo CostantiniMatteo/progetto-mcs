@@ -88,4 +88,4 @@ plt.subplots_adjust(bottom=0.15, right=0.8)
 #plt.savefig('immagini/Tempo-m-vs-p-py_dim.png')
 #plt.show()
 
-perc = [(x[0] - x[1])/x[1] for x in zip(y_py, y_mat)]
+perc = np.mean([(x[0] - x[1])/x[1]*100 for x in zip(y_py, y_mat)])
