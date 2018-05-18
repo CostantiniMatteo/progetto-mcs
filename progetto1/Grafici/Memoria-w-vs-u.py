@@ -41,7 +41,7 @@ ax.spines["right"].set_visible(False)
 
 #plt.xlabel('n° di valori non zeri')
 plt.xlabel('Dimensione')
-plt.ylabel('Tempo (s)')
+plt.ylabel('Memoria (MB)')
 
 
 
@@ -71,11 +71,17 @@ y_py_u = dt.loc[(dt['os'] == 'ubuntu') & (dt['lang'] == 'python'),'memory']
 y_mat_u = dt.loc[(dt['os'] == 'ubuntu') & (dt['lang'] == 'matlab'),'memory']
 
 
-y_u = [sum(y) / 2 for y in zip(y_py_u, y_mat_u)]
-plt.plot(x, y_u, color=tableau20[2], dashes=[2, 2], marker='o', label='Media Ubuntu')
+# y_u = [sum(y) / 2 for y in zip(y_py_u, y_mat_u)]
+# plt.plot(x, y_u, color=tableau20[2], dashes=[2, 2], marker='o', label='Media Ubuntu')
 
-y_w = [sum(y) / 2 for y in zip(y_mat_w, y_py_w)]
-plt.plot(x, y_w, color=tableau20[18], dashes=[2, 2], marker='o', label='Media Windows')
+# y_w = [sum(y) / 2 for y in zip(y_mat_w, y_py_w)]
+# plt.plot(x, y_w, color=tableau20[18], dashes=[2, 2], marker='o', label='Media Windows')
+
+# plt.plot(x, y_py_w, color=tableau20[4], dashes=[2, 2], marker='o', label='Windows/Python')
+# plt.plot(x, y_py_u, color=tableau20[6], dashes=[2, 2], marker='o', label='Ubuntu/Python')
+
+plt.plot(x, y_mat_w, color=tableau20[4], dashes=[2, 2], marker='o', label='Windows/Matlab')
+plt.plot(x, y_mat_u, color=tableau20[6], dashes=[2, 2], marker='o', label='Ubuntu/Matlab')
 
 
 plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
@@ -86,5 +92,5 @@ plt.yscale('log')
 plt.xscale('log')
 plt.subplots_adjust(bottom=0.15, right=0.8)
 #plt.gca().add_artist(legend1)
-plt.savefig('immagini/Memoria-w-vs-u_dim.png')
+#plt.savefig('immagini/Memoria-w-vs-u_dim.png')
 plt.show()
