@@ -144,7 +144,7 @@ plt.yscale('log')
 plt.xscale('log')
 plt.subplots_adjust(bottom=0.15, right=0.8)
 plt.gca().add_artist(legend1)
-plt.savefig('Graficone-dim.png')
+plt.savefig('Graficone-dim-trasp.png', trasparent=True)
 plt.show()
 
 
