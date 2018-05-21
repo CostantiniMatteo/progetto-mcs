@@ -15,16 +15,16 @@ TEST_MAT = np.array([[231,  32, 233, 161,  24,  71, 140, 245],
                      [ 87, 149,  57, 192,  65, 129, 178, 228]])
 
 
-def custom_dct(array, a1, a2):
+def custom_dct(array, a):
     r_array = np.zeros(array.size)
     N = array.size
 
     for u in range(N):
         somma = 0
-        alfa = a1 if u == 0 else a2
+        alfa = a if u == 0 else 2 * a
 
         for x, cell in enumerate(array):
-            somma += cell * math.cos((u*math.pi*(2*x + 1)) / (2*N))
+            somma += cell * math.cos( (u * math.pi * (2 * x + 1)) / (2 * N) )
 
         r_array[u] = alfa*somma
 
@@ -38,19 +38,17 @@ def custom_dct2(mat):
         custom_dct,
         axis=1,
         arr=mat,
-        a1=math.sqrt(1/mat.shape[1]),
-        a2=math.sqrt(2/mat.shape[1])
+        a=math.sqrt(1/mat.shape[1])
     )
 
     r_mat = np.apply_along_axis(
         custom_dct,
-        axis=0,
-        arr=r_mat,
-        a1=math.sqrt(1/mat.shape[0]),
-        a2=math.sqrt(2/mat.shape[0])
+        axis=1,
+        arr=r_mat.T,
+        a=math.sqrt(1/mat.shape[0])
     )
 
-    return r_mat
+    return r_mat.T
 
 
 def scipy_dct2(mat):
@@ -68,7 +66,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         PATH = sys.argv[1]
 
-    for file in tqdm(sorted(listdir(PATH))):
+    print("name,custom,scipy")
+    for file in sorted(listdir(PATH)):
         if file.endswith('.bmp'):
             img = cv2.imread(abspath(join(PATH, file)))
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -77,10 +76,16 @@ if __name__ == '__main__':
             scipy_res = scipy_dct2(img)
             end_scipy = (datetime.now() - t_start).total_seconds()
 
-            print(f'scipy_dct2: {end_scipy}s', file=sys.stderr)
-
             t_start = datetime.now()
             custom_res = custom_dct2(img)
             end_custom = (datetime.now() - t_start).total_seconds()
 
-            print(f"{file.split('.')[0]},{end_custom},{end_scipy}")
+            print(f"{file.split('.')[0]},\t{end_custom},\t{end_scipy}")
+
+    # for i in range(100, 500, 100):
+    #     img = np.random.uniform(low=0, high=255, size=(i,i))
+
+    #     t_start = datetime.now()
+    #     custom_res = custom_dct2(img)
+    #     end_custom = (datetime.now() - t_start).total_seconds()
+    #     print(f"{i}: {end_custom}s")
