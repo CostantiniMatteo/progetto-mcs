@@ -15,6 +15,7 @@ TEST_MAT = np.array([[231,  32, 233, 161,  24,  71, 140, 245],
                      [ 87, 149,  57, 192,  65, 129, 178, 228]])
 
 
+# 1-Dimensional DCT implemented as seen during lectures
 def custom_dct(array):
     r_array = np.zeros(array.size)
     N = array.size
@@ -31,6 +32,7 @@ def custom_dct(array):
     return r_array
 
 
+# 2-Dimensional DCT coputed by applying row*column 1-D DCTs
 def custom_dct2(mat):
     r_mat = np.zeros(mat.shape)
 
@@ -40,6 +42,7 @@ def custom_dct2(mat):
     return r_mat
 
 
+# Utility wrapper
 def scipy_dct2(mat):
     return dct(dct(mat.T, norm='ortho').T, norm='ortho')
 
@@ -53,13 +56,20 @@ if __name__ == '__main__':
 
     PATH = 'immagini/grey/immagini-artificiali'
     if len(sys.argv) > 1:
-        PATH = sys.argv[1]
+        if sys.argv[1] != '-d': PATH = sys.argv[1]
+    else:
+        print(f"Using default directory ({PATH}).", file=sys.stderr)
+        print("Use -d to suppress this message or pass another\
+path as argument", file=sys.stderr)
 
     print("name,custom,scipy")
     for file in tqdm(sorted(listdir(PATH))):
         if file.endswith('.bmp'):
             img = cv2.imread(abspath(join(PATH, file)))
-            # Slow if ints for some unknown reason
+            # Cast as float because otherwise it will use numpy's uint8
+            # which are mapped to C's uint8. This will lead to a lot of
+            # overhead in the conversion from uint8 to int, then to
+            # float and then back to uint8 again when computing custom_dct
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY).astype(float)
 
             t_start = datetime.now()
