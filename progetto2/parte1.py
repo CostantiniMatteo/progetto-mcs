@@ -1,6 +1,5 @@
 import numpy as np
 import math
-from tqdm import tqdm
 from scipy.fftpack import dct, idct
 
 
@@ -44,15 +43,16 @@ def custom_dct2(mat):
 
 # Utility wrapper
 def scipy_dct2(mat):
-    return dct(dct(mat.T, norm='ortho').T, norm='ortho')
+    return dct(dct(mat, norm='ortho', axis=0), norm='ortho', axis=1)
 
 
 
 if __name__ == '__main__':
     import sys, cv2
     from datetime import datetime
+    from tqdm import tqdm
     from os import listdir
-    from os.path import abspath, join
+    from os.path import exists, abspath, join
 
     PATH = 'immagini/grey/immagini-artificiali'
     if len(sys.argv) > 1:
@@ -61,6 +61,9 @@ if __name__ == '__main__':
         print(f"Using default directory ({PATH}).", file=sys.stderr)
         print("Use -d to suppress this message or pass another\
 path as argument", file=sys.stderr)
+
+    if not exists(PATH):
+        sys.exit("Source directory does not exist!")
 
     print("name,custom,scipy")
     for file in tqdm(sorted(listdir(PATH))):

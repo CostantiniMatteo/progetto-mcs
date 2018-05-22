@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+import platform
 from datetime import datetime
 
 import scipy, scipy.io
@@ -8,7 +9,7 @@ from scipy.linalg import norm
 
 
 
-def solve(A, use_umfpack=False):
+def solve(A, name, use_umfpack=False):
     # Compute b such that the exact solution of Ax = b is xe = [1, 1, ...]
     n_rows, n_columns = A.shape
     p_non_zero = A.nnz / (n_rows * n_columns)
@@ -23,26 +24,17 @@ def solve(A, use_umfpack=False):
     # || xe - x || / ||xe||
     relative_error = norm(x - xe, 2) / norm(xe, 2)
 
-    print("Shape: {} x {}".format(n_rows, n_columns))
-    if p_non_zero < 0.00001:
-        print("Non-zero: {} (< 0.00001%)".format(A.nnz))
-    else:
-        print("Non-zero: {0} ({1:.5f}%)".format(A.nnz, p_non_zero))
-    print("Relative error: {}".format(relative_error))
-    print(f"Time (solve): {t} ({t.seconds}.{t.microseconds}s)")
-    row = f"{args.MAT_DIR.split('/')[-1].split('.')[0]},{n_rows},{A.nnz},{relative_error},{t.seconds}.{t.microseconds}"
+    row = f"{name},{n_rows},{A.nnz},{relative_error}," + \
+            f"{t.seconds}.{t.microseconds},{platform.system()}"
     print(row)
-
-    # Scrivo sul log
-    with open("../logs/res.log", "a") as log:
-        log.write(row + ',mem,1,python,windows\n')
 
 
 
 if __name__ == "__main__":
-    import sys, time, gc, argparse
+    import sys, argparse
+    from tqdm import tqdm
     from os import listdir
-    from os.path import isfile, join, exists, abspath
+    from os.path import join, exists, abspath
 
     parser = argparse.ArgumentParser()
     parser.add_argument('MAT_DIR', type=str,
@@ -56,10 +48,17 @@ if __name__ == "__main__":
     if not exists(args.MAT_DIR):
         sys.exit("Source directory does not exist!")
 
-    if args.MAT_DIR.endswith('.mtx'):
-        A = scipy.io.mmread(args.MAT_DIR).tocsc()
-        print("================== Solving {} ==================".format(args.MAT_DIR))
-        if args.interactive: sys.stdin.readline()
-        x = solve(A, use_umfpack=args.use_umfpack)
-        if args.interactive: sys.stdin.readline()
-        sys.exit()
+    PATH = abspath(args.MAT_DIR)
+
+    print('name,rows,nnz,re,time,os')
+    for file in tqdm(sorted(listdir(PATH))):
+        if file.endswith('.mtx'):
+            A = scipy.io.mmread(join(PATH, file)).tocsc()
+            if args.interactive:
+                print(f"Matrix {file.split('.')[0]} loaded. Press any key...",
+                    file=sys.stderr)
+                sys.stdin.readline()
+            x = solve(A, file.split('.')[0], use_umfpack=args.use_umfpack)
+            if args.interactive:
+                print("Done. Press any key...", file=sys.stderr)
+                sys.stdin.readline()

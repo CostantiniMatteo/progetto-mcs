@@ -8,6 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
+
+
 class DCTizer(QWidget):
 
     def __init__(self):
@@ -114,8 +116,8 @@ class DCTizer(QWidget):
             self.beta = int(self.textboxBeta.text())
         except Exception:
             QMessageBox.about(
-                self, 
-                'Error', 
+                self,
+                'Error',
                 f"Valore di d oppure β non valido"
             )
 
@@ -123,8 +125,8 @@ class DCTizer(QWidget):
 
         if not self.textboxPath.text():
             QMessageBox.about(
-                self, 
-                'Error', 
+                self,
+                'Error',
                 'Percorso immagine non valido'
             )
 
@@ -132,16 +134,14 @@ class DCTizer(QWidget):
 
         if self.d > self.d_max:
             QMessageBox.about(
-                self, 
-                'Error', 
+                self,
+                'Error',
                 f"d deve essere minore di {self.d_max}"
             )
 
             return
 
         self.alter_freq()
-
-
 
 
     def round_image_(self, pixel):
@@ -194,5 +194,3 @@ class DCTizer(QWidget):
         self.progress.setValue(self.progress.value() + 25)
 
         plt.show()
-
-
