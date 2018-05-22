@@ -1,6 +1,5 @@
 from DCTizer import DCTizer
 from PyQt5.QtWidgets import QApplication
-from tqdm import tqdm
 
 
 if __name__ == '__main__':
