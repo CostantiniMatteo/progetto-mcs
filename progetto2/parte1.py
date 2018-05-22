@@ -24,7 +24,7 @@ def custom_dct(array):
         a = math.sqrt(1. / N) if u == 0 else math.sqrt(2. / N)
 
         for x, cell in enumerate(array):
-            somma += cell * math.cos( (u * math.pi * (2 * x + 1)) / (2 * N) )
+            somma += cell * math.cos((u * math.pi * (2 * x + 1)) / (2 * N))
 
         r_array[u] = a * somma
 
@@ -56,7 +56,7 @@ if __name__ == '__main__':
         PATH = sys.argv[1]
 
     print("name,custom,scipy")
-    for file in sorted(listdir(PATH)):
+    for file in tqdm(sorted(listdir(PATH))):
         if file.endswith('.bmp'):
             img = cv2.imread(abspath(join(PATH, file)))
             # Slow if ints for some unknown reason
@@ -70,4 +70,4 @@ if __name__ == '__main__':
             scipy_res = scipy_dct2(img)
             end_scipy = (datetime.now() - t_start).total_seconds()
 
-            print(f"{file.split('.')[0]},\t{end_custom},\t{end_scipy}")
+            print(f"{file.split('.')[0]},{end_custom},{end_scipy}")

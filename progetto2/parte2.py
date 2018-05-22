@@ -3,13 +3,11 @@ import matplotlib.pyplot as plt
 import cv2
 from DCTizer import DCTizer
 from PyQt5.QtWidgets import QApplication
-import sys
 from tqdm import tqdm
 from scipy.fftpack import dct, idct
 
 
 
-#img = np.random.randint(0,255,25).reshape(5,5)
 def round_image_(pixel):
     if pixel > 255:
         return 255
@@ -22,7 +20,6 @@ def round_image_(pixel):
 def alter_freq(path):
 
     # Lettura immagine
-    # img = cv2.imread('immagini/artificial.bmp')
     img = cv2.imread(path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -58,6 +55,7 @@ def alter_freq(path):
 
 
 if __name__ == '__main__':
+    import sys
 
     app = QApplication(sys.argv)
     ex = DCTizer()
