@@ -74,18 +74,18 @@ class DCTizer(QWidget):
 
         # Progress bar
         self.progress = QProgressBar(self)
-        self.progress.setGeometry(20, 150, 713, 30)
+        self.progress.setGeometry(20, 150, 680, 30)
         self.progress.setValue(0)
         self.progress.hide()
 
         # Inizializzazione
-        fileName = 'C:/Users/Dario/git/progetto-mcs/progetto2/artificial.bmp'
-        self.textboxPath.setText(fileName)
-        self.textboxD.setText('500')
-        self.textboxBeta.setText('0')
-        self.d_max = 1278
-        self.img = cv2.imread(fileName)
-        self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        # fileName = 'C:/Users/Dario/git/progetto-mcs/progetto2/artificial.bmp'
+        # self.textboxPath.setText(fileName)
+        # self.textboxD.setText('500')
+        # self.textboxBeta.setText('0')
+        # self.d_max = 1278
+        # self.img = cv2.imread(fileName)
+        # self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
 
         self.show()
 

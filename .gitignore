@@ -130,3 +130,5 @@ octave-workspace
 
 matrices/
 progetto2/immagini/
+*.png
+*.bmp
