@@ -68,7 +68,7 @@ path as argument", file=sys.stderr)
     if not exists(PATH):
         sys.exit("Source directory does not exist!")
 
-    # print("name,custom,scipy")
+    print("name,custom,scipy")
     for file in tqdm(sorted(listdir(PATH))):
         if file.endswith('.bmp'):
             img = cv2.imread(abspath(join(PATH, file)))
@@ -78,6 +78,8 @@ path as argument", file=sys.stderr)
             # float and then back to uint8 again when computing custom_dct
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY).astype(float)
 
+            pixels = img.shape[0] * img.shape[1]
+
             t_start = datetime.now()
             custom_res = custom_dct2(img)
             end_custom = (datetime.now() - t_start).total_seconds()
@@ -86,4 +88,5 @@ path as argument", file=sys.stderr)
             scipy_res = scipy_dct2(img)
             end_scipy = (datetime.now() - t_start).total_seconds()
 
-            print(f"{file.split('.')[0]},{end_custom},{end_scipy}")
+
+            print(f"{file.split('.')[0]},{end_custom},{end_scipy},{pixels}")
