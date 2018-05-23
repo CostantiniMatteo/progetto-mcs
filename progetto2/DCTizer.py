@@ -141,6 +141,15 @@ class DCTizer(QWidget):
 
             return
 
+        elif self.d < 0:
+            QMessageBox.about(
+                self,
+                'Error',
+                f"d deve essere maggiore di 0"
+            )
+
+            return
+
         self.alter_freq()
 
 
@@ -162,15 +171,15 @@ class DCTizer(QWidget):
         # Applicazione dct
         d_img = dct(dct(self.img.T, norm='ortho').T, norm='ortho')
 
-        self.progress.setValue(self.progress.value() + 25)
+        self.progress.setValue(25)
 
         # modifica frequenze
         for i, row in tqdm(enumerate(d_img)):
-          for j, col in enumerate(row):
-            if i + j >= self.d:
-                d_img[i, j] *= self.beta
+            self.progress.setValue(26 + (45 * i) / d_img.shape[0])
+            for j, col in enumerate(row):
+                if i + j >= self.d:
+                    d_img[i, j] *= self.beta
 
-        self.progress.setValue(self.progress.value() + 25)
 
         # Applicazione inversa dct e arrotondamento
         i_img = round_image(idct(idct(d_img.T, norm='ortho').T, norm='ortho'))
@@ -191,6 +200,6 @@ class DCTizer(QWidget):
         manager = plt.get_current_fig_manager()
         manager.resize(*manager.window.maxsize())
 
-        self.progress.setValue(self.progress.value() + 25)
+        self.progress.setValue(self.progress.value() + 5)
 
         plt.show()
