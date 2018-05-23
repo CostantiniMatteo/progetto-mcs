@@ -1,6 +1,7 @@
 import numpy as np
 import math
 from scipy.fftpack import dct, idct
+from numba import jit
 
 
 
@@ -15,6 +16,7 @@ TEST_MAT = np.array([[231,  32, 233, 161,  24,  71, 140, 245],
 
 
 # 1-Dimensional DCT implemented as seen during lectures
+@jit
 def custom_dct(array):
     r_array = np.zeros(array.size)
     N = array.size
@@ -32,6 +34,7 @@ def custom_dct(array):
 
 
 # 2-Dimensional DCT coputed by applying row*column 1-D DCTs
+@jit
 def custom_dct2(mat):
     r_mat = np.zeros(mat.shape)
 
