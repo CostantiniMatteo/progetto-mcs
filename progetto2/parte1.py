@@ -2,7 +2,7 @@ import numpy as np
 import math
 from scipy.fftpack import dct, idct
 from numba import jit
-
+import sys
 
 
 TEST_MAT = np.array([[231,  32, 233, 161,  24,  71, 140, 245],
@@ -37,7 +37,7 @@ def custom_dct(array):
 @jit
 def custom_dct2(mat):
     r_mat = np.zeros(mat.shape)
-
+    print(mat.shape, file=sys.stderr)
     r_mat = np.apply_along_axis(custom_dct, axis=1, arr=mat)
     r_mat = np.apply_along_axis(custom_dct, axis=0, arr=r_mat)
 
@@ -68,7 +68,7 @@ path as argument", file=sys.stderr)
     if not exists(PATH):
         sys.exit("Source directory does not exist!")
 
-    print("name,custom,scipy")
+    # print("name,custom,scipy")
     for file in tqdm(sorted(listdir(PATH))):
         if file.endswith('.bmp'):
             img = cv2.imread(abspath(join(PATH, file)))
