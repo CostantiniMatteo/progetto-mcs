@@ -79,13 +79,13 @@ class DCTizer(QWidget):
         self.progress.hide()
 
         # Inizializzazione
-        # fileName = 'C:/Users/Dario/git/progetto-mcs/progetto2/artificial.bmp'
-        # self.textboxPath.setText(fileName)
-        # self.textboxD.setText('500')
-        # self.textboxBeta.setText('0')
-        # self.d_max = 1278
-        # self.img = cv2.imread(fileName)
-        # self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+        fileName = '/home/dario/git/progetto-mcs/progetto2/immagini/grey/artificial.bmp'
+        self.textboxPath.setText(fileName)
+        self.textboxD.setText('500')
+        self.textboxBeta.setText('0')
+        self.d_max = 1278
+        self.img = cv2.imread(fileName)
+        self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY).astype(float)
 
         self.show()
 
@@ -102,7 +102,7 @@ class DCTizer(QWidget):
         if fileName:
             self.textboxPath.setText(fileName)
             self.img = cv2.imread(fileName)
-            self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
+            self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY).astype(float)
             self.d_max = sum(self.img.shape) - 2
             self.labelD.setText(f"Valore di d < {self.d_max}")
             self.labelD.hide()
@@ -186,6 +186,7 @@ class DCTizer(QWidget):
 
         self.progress.setValue(self.progress.value() + 25)
 
+        plt.figure(1)
         # Visualizzazione
         plt.subplot(122)
         plt.imshow(i_img, cmap=plt.get_cmap('gray'), vmin=0, vmax=255)
@@ -202,4 +203,10 @@ class DCTizer(QWidget):
 
         self.progress.setValue(self.progress.value() + 5)
 
+        plt.figure(2)
+        sub_img = cv2.absdiff(self.img, i_img.astype(float))
+        plt.imshow(sub_img, cmap=plt.get_cmap('gray'), vmin=0, vmax=255)
+        plt.title('Immagine differenza')
+
         plt.show()
+
