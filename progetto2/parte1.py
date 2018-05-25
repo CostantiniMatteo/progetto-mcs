@@ -37,7 +37,6 @@ def custom_dct(array):
 @jit
 def custom_dct2(mat):
     r_mat = np.zeros(mat.shape)
-    print(mat.shape, file=sys.stderr)
     r_mat = np.apply_along_axis(custom_dct, axis=1, arr=mat)
     r_mat = np.apply_along_axis(custom_dct, axis=0, arr=r_mat)
 
@@ -57,28 +56,21 @@ if __name__ == '__main__':
     from os import listdir
     from os.path import exists, abspath, join
 
-    PATH = 'immagini/grey/immagini-artificiali'
-    if len(sys.argv) > 1:
-        if sys.argv[1] != '-d': PATH = sys.argv[1]
-    else:
-        print(f"Using default directory ({PATH}).", file=sys.stderr)
-        print("Use -d to suppress this message or pass another\
-path as argument", file=sys.stderr)
+    if len(sys.argv) < 4:
+        sys.exit(f"Usage: {sys.argv[0]} n_min n_max step\
+All arguments must be integers.")
 
-    if not exists(PATH):
-        sys.exit("Source directory does not exist!")
+    try:
+        begin = int(sys.argv[1])
+        end = int(sys.argv[2])
+        step = int(sys.argv[3])
+    except:
+        sys.exit(f"Usage: {sys.argv[0]} n_min n_max step\
+All arguments must be integers.")
 
-    print("name,custom,scipy")
-    for file in tqdm(sorted(listdir(PATH))):
-        if file.endswith('.bmp'):
-            img = cv2.imread(abspath(join(PATH, file)))
-            # Cast as float because otherwise it will use numpy's uint8
-            # which are mapped to C's uint8. This will lead to a lot of
-            # overhead in the conversion from uint8 to int, then to
-            # float and then back to uint8 again when computing custom_dct
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY).astype(float)
-
-            pixels = img.shape[0] * img.shape[1]
+    # print("rows,custom,scipy")
+    for N in tqdm(range(begin, end+1, step)):
+            img = np.random.uniform(low=0.0, high=255.0, size=(N, N))
 
             t_start = datetime.now()
             custom_res = custom_dct2(img)
@@ -88,5 +80,4 @@ path as argument", file=sys.stderr)
             scipy_res = scipy_dct2(img)
             end_scipy = (datetime.now() - t_start).total_seconds()
 
-
-            print(f"{file.split('.')[0]},{end_custom},{end_scipy},{pixels}")
+            print(f"{N},{end_custom},{end_scipy}")

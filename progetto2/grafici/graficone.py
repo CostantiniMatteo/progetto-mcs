@@ -46,11 +46,15 @@ ax.spines["right"].set_visible(False)
 plt.xlabel('n° celle matrice')
 plt.ylabel('Tempo (s)')
 
-dt = dt.sort_values('pixels')
+dt = dt.sort_values('rows')
 dt = dt.reset_index(drop=True)
 
 
 x = dt['pixels']
+
+# interpolated_coeff = [3.69419201604257e-08  -9.41399383682348e-08  0.000368093143035400  0.0381986233504408]
+# x_interpolated = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1000, 1500, 2000, 2500, 3000]
+# y_interpolated = [0.401054, 0.290296, 0.979843, 2.311794, 4.500351, 10.333815, 12.352358, 18.49247, 26.66356, 36.591357, 37.040442, 125.951585, 297.646099, 575.330919, 998.46681]
 
 
 #TEMPI
