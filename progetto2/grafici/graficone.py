@@ -50,24 +50,28 @@ dt = dt.sort_values('rows')
 dt = dt.reset_index(drop=True)
 
 
-x = dt['pixels']
+x = dt['rows']
 
-# interpolated_coeff = [3.69419201604257e-08  -9.41399383682348e-08  0.000368093143035400  0.0381986233504408]
-# x_interpolated = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1000, 1500, 2000, 2500, 3000]
-# y_interpolated = [0.401054, 0.290296, 0.979843, 2.311794, 4.500351, 10.333815, 12.352358, 18.49247, 26.66356, 36.591357, 37.040442, 125.951585, 297.646099, 575.330919, 998.46681]
+a = [3.69419201604257e-08, -9.41399383682348e-08, 0.000368093143035400, 0.0381986233504408]
+#x_interpolated = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1000, 1500, 2000, 2500, 3000]
+#y_interpolated = [0.401054, 0.290296, 0.979843, 2.311794, 4.500351, 10.333815, 12.352358, 18.49247, 26.66356, 36.591357, 37.040442, 125.951585, 297.646099, 575.330919, 998.46681]
 
 
 #TEMPI
 
 # Scipy
-y = dt['scipy']
-l1, = plt.plot(x, y, color=tableau20[2], dashes=[2, 2], marker='o', label='Scipy DCT')
-#plt.text(15.2, y.tail(1) , 'Windows/Python', fontsize=12, color=tableau20[2])
+#y = dt['scipy']
+#l1, = plt.plot(x, y, color=tableau20[2], dashes=[2, 2], marker='o', label='Scipy DCT')
+
 
 # Custom
+x_interpolated = list(range(100, 3001, 10))
+y_interpolated = [sum([a[0]*(x_i**3) + a[1]*(x_i**2) + a[2]*(x_i) + a[3]]) for x_i in x_interpolated]
 y = dt['custom']
-plt.plot(x, y, color=tableau20[18], dashes=[2, 2], marker='o', label='Custom DCT')
-#plt.text(15.2, y.tail(1), 'Windows/Matlab', fontsize=12, color=tableau20[18])
+plt.scatter(x, y, color=tableau20[18], marker='o', label='Custom DCT')
+plt.plot(x_interpolated, y_interpolated, color=tableau20[2], label='Interpolation')
+
+
 
 
 plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
