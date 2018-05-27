@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import math
 
 dt = pd.read_csv(
     "../res.log",
@@ -67,9 +68,10 @@ a = [3.69419201604257e-08, -9.41399383682348e-08, 0.000368093143035400, 0.038198
 # Custom
 x_interpolated = list(range(100, 3001, 10))
 y_interpolated = [sum([a[0]*(x_i**3) + a[1]*(x_i**2) + a[2]*(x_i) + a[3]]) for x_i in x_interpolated]
-y = dt['custom']
-plt.scatter(x, y, color=tableau20[18], marker='o', label='Custom DCT')
-plt.plot(x_interpolated, y_interpolated, color=tableau20[2], label='Interpolation')
+y_nlogn = [1000*x_i*math.log(x_i) for x_i in x_interpolated]
+plt.plot(x, dt['scipy'], color=tableau20[18], marker='o', dashes=[2,2], label='Scipy DCT')
+# plt.scatter(x, dt['custom'], color=tableau20[2], marker='o', label='Custom DCT')
+# plt.plot(x_interpolated, y_interpolated, dashes=[2,2], color=tableau20[2])
 
 
 
@@ -77,4 +79,5 @@ plt.plot(x_interpolated, y_interpolated, color=tableau20[2], label='Interpolatio
 plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 plt.xscale('log')
 plt.subplots_adjust(bottom=0.15, right=0.8)
+plt.savefig('scipy_plot.png', trasparent=True)
 plt.show()
