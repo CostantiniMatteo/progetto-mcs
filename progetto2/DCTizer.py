@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator
 from PyQt5.QtCore import pyqtSlot
-from scipy.fftpack import dct, idct
+from scipy.fftpack import dctn, idctn
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -169,7 +169,8 @@ class DCTizer(QWidget):
         round_image = np.vectorize(self.round_image_)
 
         # Applicazione dct
-        d_img = dct(dct(self.img.T, norm='ortho').T, norm='ortho')
+        # d_img = dct(dct(self.img.T, norm='ortho').T, norm='ortho')
+        d_img = dctn(self.img, norm='ortho')
 
         self.progress.setValue(25)
 
@@ -182,7 +183,8 @@ class DCTizer(QWidget):
 
 
         # Applicazione inversa dct e arrotondamento
-        i_img = round_image(idct(idct(d_img.T, norm='ortho').T, norm='ortho'))
+        # i_img = round_image(idct(idct(d_img.T, norm='ortho').T, norm='ortho'))
+        i_img = round_image(idctn(d_img, norm='ortho'))
 
 
         self.progress.setValue(self.progress.value() + 25)
