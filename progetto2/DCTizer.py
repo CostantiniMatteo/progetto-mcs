@@ -1,12 +1,11 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QIcon, QIntValidator
+from PyQt5.QtGui import QIcon, QDoubleValidator, QIntValidator
 from PyQt5.QtCore import pyqtSlot
 from scipy.fftpack import dct, idct
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from tqdm import tqdm
 
 
 
@@ -40,8 +39,8 @@ class DCTizer(QWidget):
         self.textboxBeta = QLineEdit(self)
         self.textboxBeta.move(20, 80)
         self.textboxBeta.resize(80, 40)
-        self.onlyInt = QIntValidator()
-        self.textboxBeta.setValidator(self.onlyInt)
+        self.onlyDouble = QDoubleValidator()
+        self.textboxBeta.setValidator(self.onlyDouble)
 
         # Label Beta
         self.labelBeta = QLabel("Valore di β", self)
@@ -51,6 +50,7 @@ class DCTizer(QWidget):
         self.textboxD = QLineEdit(self)
         self.textboxD.move(300, 80)
         self.textboxD.resize(80, 40)
+        self.onlyInt = QIntValidator()
         self.textboxD.setValidator(self.onlyInt)
 
         # Label d
@@ -79,13 +79,13 @@ class DCTizer(QWidget):
         self.progress.hide()
 
         # Inizializzazione
-        fileName = '/home/dario/git/progetto-mcs/progetto2/immagini/grey/artificial.bmp'
-        self.textboxPath.setText(fileName)
-        self.textboxD.setText('500')
-        self.textboxBeta.setText('0')
-        self.d_max = 1278
-        self.img = cv2.imread(fileName)
-        self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY).astype(float)
+        # fileName = '/home/dario/git/progetto-mcs/progetto2/immagini/grey/artificial.bmp'
+        # self.textboxPath.setText(fileName)
+        # self.textboxD.setText('500')
+        # self.textboxBeta.setText('0')
+        # self.d_max = 1278
+        # self.img = cv2.imread(fileName)
+        # self.img = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY).astype(float)
 
         self.show()
 
@@ -113,7 +113,7 @@ class DCTizer(QWidget):
     def on_click_alter_freq(self):
         try:
             self.d = int(self.textboxD.text())
-            self.beta = int(self.textboxBeta.text())
+            self.beta = float(self.textboxBeta.text())
         except Exception:
             QMessageBox.about(
                 self,
@@ -174,7 +174,7 @@ class DCTizer(QWidget):
         self.progress.setValue(25)
 
         # modifica frequenze
-        for i, row in tqdm(enumerate(d_img)):
+        for i, row in enumerate(d_img):
             self.progress.setValue(26 + (45 * i) / d_img.shape[0])
             for j, col in enumerate(row):
                 if i + j >= self.d:
@@ -183,6 +183,7 @@ class DCTizer(QWidget):
 
         # Applicazione inversa dct e arrotondamento
         i_img = round_image(idct(idct(d_img.T, norm='ortho').T, norm='ortho'))
+
 
         self.progress.setValue(self.progress.value() + 25)
 
