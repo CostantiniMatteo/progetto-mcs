@@ -1,6 +1,6 @@
 import numpy as np
 import math
-from scipy.fftpack import dct, idct
+from scipy.fftpack import dctn
 from numba import jit
 import sys
 
@@ -43,11 +43,6 @@ def custom_dct2(mat):
     return r_mat
 
 
-# Utility wrapper
-def scipy_dct2(mat):
-    return dct(dct(mat, norm='ortho', axis=0), norm='ortho', axis=1)
-
-
 
 if __name__ == '__main__':
     import sys, cv2
@@ -77,7 +72,7 @@ All arguments must be integers.")
             end_custom = (datetime.now() - t_start).total_seconds()
 
             t_start = datetime.now()
-            scipy_res = scipy_dct2(img)
+            scipy_res = dctm(img, norm='ortho')
             end_scipy = (datetime.now() - t_start).total_seconds()
 
             print(f"{N},{end_custom},{end_scipy}")
