@@ -1,9 +1,0 @@
-torso1		116,158		https://sparse.tamu.edu/Norris/torso1
-PR02R		161,070		https://sparse.tamu.edu/Fluorem/PR02R
-atmosmodl	1,489,752	https://sparse.tamu.edu/Bourchtein/atmosmodl
-torso3		259,156		https://sparse.tamu.edu/Norris/torso3
-kim2		456,976		https://sparse.tamu.edu/Kim/kim2
-water_tank	60,740		https://sparse.tamu.edu/Rudnyi/water_tank
-raefsky3	21,200		https://sparse.tamu.edu/Simon/raefsky3
-graham1		9,035		https://sparse.tamu.edu/Graham/graham1
-ex19		12,005		https://sparse.tamu.edu/FIDAP/ex19

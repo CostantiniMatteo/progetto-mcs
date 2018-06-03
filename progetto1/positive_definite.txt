@@ -1,9 +1,0 @@
-ex15         ,6867   ,https://sparse.tamu.edu/FIDAP/ex15
-cfd1         ,70656  ,https://sparse.tamu.edu/Rothberg/cfd1
-cfd2         ,123440 ,https://sparse.tamu.edu/Rothberg/cfd2
-shallow_water,181920 ,https://sparse.tamu.edu/MaxPlanck/shallow_water1
-parabolic_fem,525825 ,https://sparse.tamu.edu/Wissgott/parabolic_fem
-apache2      ,715176 ,https://sparse.tamu.edu/GHS_psdef/apache2
-StocF-1465   ,1465137,https://sparse.tamu.edu/Janna/StocF-1465
-Flan_1565    ,1564794,https://sparse.tamu.edu/Janna/Flan_1565
-G3_circuit   ,1585478,https://sparse.tamu.edu/AMD/G3_circuit
